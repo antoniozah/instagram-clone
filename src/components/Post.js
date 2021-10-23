@@ -49,7 +49,7 @@ function Post({ id, img, username, caption, avatar, posted, likes }) {
     return (
         <article className="bg-white border border-gray-300" id={id}>
             <div className="flex items-center p-4">
-                <figure className="">
+                <figure className="flex-shrink-0 cursor-pointer">
                     <img
                         className="w-14 h-14 p-0.5 border border-gray-500 rounded-full object-cover"
                         src={avatar}

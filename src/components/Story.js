@@ -1,6 +1,6 @@
 function Story({ image, username }) {
     return (
-        <div>
+        <div className="cursor-pointer">
             <figure>
                 <img
                     className="w-12 h-12 rounded-full p-0.5 border border-red-500"
