@@ -14,6 +14,7 @@ function Posts() {
             caption: 'Why does your Business need an Online Presence?',
             avatar: profile1,
             postedTime: 120060,
+            likes: 2234,
         },
         {
             img: postImage2,
@@ -22,7 +23,8 @@ function Posts() {
             caption:
                 "One of the questions that we often get asked is: Why should I use WordPress? Isn't my old site good enough?",
             avatar: profile2,
-            postedTime: 3000,
+            postedTime: 300000,
+            likes: 2999,
         },
     ];
     return (
@@ -35,6 +37,7 @@ function Posts() {
                     caption={item.caption}
                     avatar={item.avatar}
                     posted={item.postedTime}
+                    likes={item.likes}
                 />
             ))}
         </div>

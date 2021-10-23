@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
     DotsHorizontalIcon,
     HeartIcon,
@@ -7,24 +8,39 @@ import {
     EmojiHappyIcon,
 } from '@heroicons/react/outline';
 
-function Post({ id, img, username, caption, avatar, posted }) {
+function Post({ id, img, username, caption, avatar, posted, likes }) {
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
+
+    const toggleFav = () => {
+        setIsFavorite(!isFavorite);
+    };
+
+    const toggleSave = () => {
+        setIsSaved(!isSaved);
+    };
+
+    //Calculate How much time passed from initial post
     const timeCalculate = (time) => {
-        let day = 86400;
+        const day = 86400;
+        const hour = 3600;
+        const minute = 60;
+
         let postedTime = Math.trunc(time / day);
         if (postedTime > 1) {
             return `${postedTime} days ago`;
         } else if (postedTime === 1) {
             return `${postedTime} day ago`;
         } else {
-            if (time < 60) {
+            if (time < minute) {
                 return `${time} sec ago`;
-            } else if (time < 3600) {
-                postedTime = Math.trunc(time / 60);
+            } else if (time < hour) {
+                postedTime = Math.trunc(time / minute);
                 return `${postedTime} min ago`;
-            } else if (time >= 3600 && time < 7200) {
+            } else if (time >= hour && time < hour * 2) {
                 return '1 hour ago';
             } else {
-                postedTime = Math.trunc(time / 3600);
+                postedTime = Math.trunc(time / hour);
                 return `${postedTime} hours ago`;
             }
         }
@@ -56,17 +72,27 @@ function Post({ id, img, username, caption, avatar, posted }) {
             <div className="px-4 pt-4 pb-2">
                 <div className="flex items-center justify-between">
                     <div className="flex space-x-2">
-                        <HeartIcon className="w-6 h-6 cursor-pointer" />
+                        <HeartIcon
+                            className={`w-6 h-6 cursor-pointer ${
+                                isFavorite ? 'fill-current text-red-500' : ''
+                            }`}
+                            onClick={() => toggleFav()}
+                        />
                         <ChatIcon className="w-6 h-6 cursor-pointer" />
                         <PaperAirplaneIcon className="relative bottom-0.5 w-6 h-6 transform rotate-45 cursor-pointer" />
                     </div>
                     <div>
-                        <BookmarkIcon className="w-6 h-6 cursor-pointer" />
+                        <BookmarkIcon
+                            className={`w-6 h-6 cursor-pointer ${
+                                isSaved ? 'fill-current text-gray-800' : ''
+                            }`}
+                            onClick={() => toggleSave()}
+                        />
                     </div>
                 </div>
                 <div className="mt-1">
                     <p className="text-sm font-semibold text-gray-700">
-                        1,500 likes
+                        {likes === 1 ? `${likes} like` : `${likes} likes`}
                     </p>
                 </div>
                 <div className="mt-2">
