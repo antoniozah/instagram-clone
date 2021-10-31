@@ -8,7 +8,20 @@ import {
     EmojiHappyIcon,
 } from '@heroicons/react/outline';
 
-function Post({ id, img, username, caption, avatar, posted, likes }) {
+import postImage1 from '../images/post-1.jpg';
+import postImage2 from '../images/post-2.jpg';
+import profile1 from '../images/profile-img.jpeg';
+import profile2 from '../images/profile-2.jpg';
+
+function Post({
+    username,
+    caption,
+    avatar,
+    likes,
+    id,
+    img,
+    postedTime: { seconds },
+}) {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -26,25 +39,42 @@ function Post({ id, img, username, caption, avatar, posted, likes }) {
         const hour = 3600;
         const minute = 60;
 
+        let nowSec = new Date().getTime() / 1000;
+        let nowSecD = Math.trunc(nowSec / day);
+
         let postedTime = Math.trunc(time / day);
-        if (postedTime > 1) {
-            return `${postedTime} days ago`;
+        if (nowSecD - postedTime > 1) {
+            return `${nowSecD - postedTime} days ago`;
         } else if (postedTime === 1) {
             return `${postedTime} day ago`;
         } else {
-            if (time < minute) {
+            if (nowSec - time < minute) {
                 return `${time} sec ago`;
-            } else if (time < hour) {
+            } else if (nowSec - time < hour) {
                 postedTime = Math.trunc(time / minute);
-                return `${postedTime} min ago`;
-            } else if (time >= hour && time < hour * 2) {
+                nowSec = Math.trunc(nowSec / minute);
+                return `${nowSec - postedTime} min ago`;
+            } else if (nowSec - time >= hour && nowSec - time < hour * 2) {
                 return '1 hour ago';
             } else {
                 postedTime = Math.trunc(time / hour);
-                return `${postedTime} hours ago`;
+                nowSec = Math.trunc(nowSec / hour);
+                return `${nowSec - postedTime} hours ago`;
             }
         }
     };
+
+    if (avatar === 'profile1') {
+        avatar = profile1;
+    } else {
+        avatar = profile2;
+    }
+
+    if (img === 'postImage1') {
+        img = postImage1;
+    } else {
+        img = postImage2;
+    }
 
     return (
         <article className="bg-white border border-gray-300" id={id}>
@@ -97,11 +127,11 @@ function Post({ id, img, username, caption, avatar, posted, likes }) {
                 </div>
                 <div className="mt-2">
                     <p>
-                        <span className="font-semibold">{username}</span>{' '}
+                        <span className="font-semibold">{username}</span>
                         {caption}
                     </p>
                     <p className="py-2 text-xs text-gray-500">
-                        {timeCalculate(posted)}
+                        {timeCalculate(seconds)}
                     </p>
                 </div>
             </div>

@@ -18,9 +18,11 @@ function Feed() {
             </section>
 
             {/* Section */}
-            <section className="py-6 pl-8 pr-4">
-                <Miniprofile />
-                <Suggestions />
+            <section className="hidden xl:inline-grid md:col-span1 py-6 pl-8 pr-4">
+                <div className="fixed top-22">
+                    <Miniprofile />
+                    <Suggestions />
+                </div>
             </section>
         </main>
     );

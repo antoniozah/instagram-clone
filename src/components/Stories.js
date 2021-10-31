@@ -10,7 +10,6 @@ function Stories() {
             ...faker.helpers.contextualCard(),
             id: index,
         }));
-        console.log(data);
         setData(data);
     }, []);
 

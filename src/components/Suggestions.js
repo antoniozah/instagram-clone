@@ -12,8 +12,6 @@ function Suggestions() {
         }));
 
         setSuggestion(suggestion);
-
-        console.log(suggestion);
     }, []);
 
     return (
