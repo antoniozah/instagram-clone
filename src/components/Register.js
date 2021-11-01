@@ -1,18 +1,18 @@
 import instagramLogo from '../images/instagram-full-logo.png';
 
-function Login({ loginEmail, loginPass, loginUser }) {
+function Register({ registerEmail, registerPass, createUser, checkLogin }) {
     return (
         <div className="w-full max-w-md">
             <figure className="flex justify-center">
                 <img src={instagramLogo} alt="" />
             </figure>
-            <h1 className="text-center">Login to your instagram account!</h1>
+            <h1 className="text-center">Register a new account!</h1>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    loginUser();
-                    loginEmail('');
-                    loginPass('');
+                    createUser();
+                    registerPass('');
+                    registerEmail('');
                 }}
             >
                 <input
@@ -21,26 +21,27 @@ function Login({ loginEmail, loginPass, loginUser }) {
                     name="email"
                     placeholder="Enter your email"
                     onChange={(e) => {
-                        loginEmail(e.target.value);
+                        registerEmail(e.target.value);
                     }}
                 />
+
                 <input
                     className="block w-full"
                     type="password"
                     name="password"
                     placeholder="Enter your password"
                     onChange={(e) => {
-                        loginPass(e.target.value);
+                        registerPass(e.target.value);
                     }}
                 />
                 <input
                     className="my-3 py-2 px-3 w-full bg-black text-white cursor-pointer"
                     type="submit"
-                    value="Login"
+                    value="Register"
                 />
             </form>
         </div>
     );
 }
 
-export default Login;
+export default Register;

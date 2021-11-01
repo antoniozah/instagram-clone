@@ -22,8 +22,6 @@ function Posts() {
         setIsLoading(false);
     }, []);
 
-    console.log(posts);
-
     if (isLoading) {
         <h2>Loading...</h2>;
     }

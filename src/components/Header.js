@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import desktopLogo from '../images/instagram-full-logo.png';
 import mobileLogo from '../images/instagram-logo.png';
 import profile from '../images/profile-img.jpeg';
@@ -12,7 +14,8 @@ import {
 } from '@heroicons/react/outline';
 import { HomeIcon } from '@heroicons/react/solid';
 
-function Header() {
+function Header({ logout }) {
+    const [profOpen, setProfOpen] = useState(false);
     return (
         <header className="shadow-sm border-b bg-white sticky top-0 z-50">
             <div className="flex justify-between items-center max-w-6xl px-4 xl:mx-auto">
@@ -48,11 +51,28 @@ function Header() {
                     <PlusCircleIcon className="actionBtn" />
                     <UserGroupIcon className="actionBtn" />
                     <HeartIcon className="actionBtn" />
-                    <img
-                        className="w-9 h-9 rounded-full cursor-pointer object-cover flex-shrink-0"
-                        src={profile}
-                        alt="profile img"
-                    />
+                    <div className="relative">
+                        <figure onClick={() => setProfOpen(!profOpen)}>
+                            <img
+                                className="w-9 h-9 rounded-full cursor-pointer object-cover flex-shrink-0"
+                                src={profile}
+                                alt="profile img"
+                            />
+                        </figure>
+                        {profOpen && (
+                            <div className="absolute top-full -left-12 flex justify-center items-center mt-1 w-32 py-2 px-3 bg-gray-50 border ">
+                                <button
+                                    className="text-blue-500"
+                                    onClick={() => {
+                                        console.log('Logged out!!!');
+                                        logout();
+                                    }}
+                                >
+                                    Sign out
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </header>
