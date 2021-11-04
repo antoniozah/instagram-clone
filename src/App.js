@@ -5,12 +5,17 @@ import {
     signOut,
     signInWithEmailAndPassword,
 } from 'firebase/auth';
+
 import Feed from './components/Feed';
 import Header from './components/Header';
 import Login from './components/Login';
 import Register from './components/Register';
+import Modal from './components/Modal';
 import { auth } from './firebase';
 import './App.css';
+
+import { useDispatch } from 'react-redux';
+import { login, logout } from './features/userSlice';
 
 function App() {
     const [isLogedIn, setIsLogedIn] = useState(false);
@@ -20,6 +25,9 @@ function App() {
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPass, setLoginPass] = useState('');
     const [user, setUser] = useState(null);
+    const [isModal, setIsModal] = useState(false);
+
+    const dispatch = useDispatch();
 
     onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
@@ -28,6 +36,7 @@ function App() {
         } else {
             setIsLogedIn(false);
             setUser(currentUser);
+            dispatch(logout());
         }
     });
 
@@ -36,8 +45,9 @@ function App() {
             const user = await createUserWithEmailAndPassword(
                 auth,
                 registerEmail,
-                registerPass,
+                registerPass
             );
+
             setIsLogedIn(true);
         } catch (error) {
             console.log(error.message);
@@ -50,7 +60,7 @@ function App() {
             const user = await signInWithEmailAndPassword(
                 auth,
                 loginEmail,
-                loginPass,
+                loginPass
             );
             setIsLogedIn(true);
         } catch (error) {
@@ -101,10 +111,15 @@ function App() {
     return (
         <div className="App bg-gray-50">
             {/* Header */}
-            <Header logout={logoutHandler} />
+            <Header
+                logout={logoutHandler}
+                modalStatus={setIsModal}
+                username={user}
+            />
             {/* Feed */}
-            <Feed />
+            <Feed username={user} logout={logoutHandler} />
             {/* Modal */}
+            {isModal && <Modal username={user} modalStatus={setIsModal} />}
         </div>
     );
 }

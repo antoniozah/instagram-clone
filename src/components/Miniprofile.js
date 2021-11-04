@@ -1,22 +1,20 @@
+import setAvatar from '../customFunctions';
 import profile1 from '../images/profile-img.jpeg';
 
-function Miniprofile() {
+function Miniprofile({ username, logout }) {
     return (
         <div className="flex items-center">
-            <figure>
-                <img
-                    className="w-16 h-16 rounded-full object-cover cursor-pointer"
-                    src={profile1}
-                    alt=""
-                />
-            </figure>
-            <div className="flex-1 ml-5">
+            {setAvatar(username, 14)}
+            <div className="flex-1 ml-3">
                 <h4 className="font-semibold text-gray-800 cursor-pointer">
-                    4ntonioz
+                    {username.substring(0, username.lastIndexOf('@'))}
                 </h4>
-                <p className="text-sm text-gray-500">Antonios Zachos</p>
+                <p className="text-sm text-gray-500">{username}</p>
             </div>
-            <button className="text-xs font-semibold text-blue-500">
+            <button
+                className="text-xs font-semibold text-blue-500"
+                onClick={() => logout()}
+            >
                 Switch
             </button>
         </div>

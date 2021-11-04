@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import setAvatar from '../customFunctions';
 import desktopLogo from '../images/instagram-full-logo.png';
 import mobileLogo from '../images/instagram-logo.png';
 import profile from '../images/profile-img.jpeg';
@@ -14,8 +14,9 @@ import {
 } from '@heroicons/react/outline';
 import { HomeIcon } from '@heroicons/react/solid';
 
-function Header({ logout }) {
+function Header({ logout, modalStatus, username }) {
     const [profOpen, setProfOpen] = useState(false);
+
     return (
         <header className="shadow-sm border-b bg-white sticky top-0 z-50">
             <div className="flex justify-between items-center max-w-6xl px-4 xl:mx-auto">
@@ -48,17 +49,17 @@ function Header({ logout }) {
                         </div>
                     </div>
 
-                    <PlusCircleIcon className="actionBtn" />
+                    <PlusCircleIcon
+                        className="actionBtn"
+                        onClick={() => modalStatus(true)}
+                    />
                     <UserGroupIcon className="actionBtn" />
                     <HeartIcon className="actionBtn" />
                     <div className="relative">
-                        <figure onClick={() => setProfOpen(!profOpen)}>
-                            <img
-                                className="w-9 h-9 rounded-full cursor-pointer object-cover flex-shrink-0"
-                                src={profile}
-                                alt="profile img"
-                            />
-                        </figure>
+                        <div onClick={() => setProfOpen(!profOpen)}>
+                            {' '}
+                            {setAvatar(username, 10)}
+                        </div>
                         {profOpen && (
                             <div className="absolute top-full -left-12 flex justify-center items-center mt-1 w-32 py-2 px-3 bg-gray-50 border ">
                                 <button

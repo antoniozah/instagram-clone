@@ -7,21 +7,11 @@ import {
     BookmarkIcon,
     EmojiHappyIcon,
 } from '@heroicons/react/outline';
+import setAvatar from '../customFunctions';
 
-import postImage1 from '../images/post-1.jpg';
 import postImage2 from '../images/post-2.jpg';
-import profile1 from '../images/profile-img.jpeg';
-import profile2 from '../images/profile-2.jpg';
 
-function Post({
-    username,
-    caption,
-    avatar,
-    likes,
-    id,
-    img,
-    postedTime: { seconds },
-}) {
+function Post({ username, caption, avatar, likes, id, img, postedTime }) {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -49,7 +39,7 @@ function Post({
             return `${postedTime} day ago`;
         } else {
             if (nowSec - time < minute) {
-                return `${time} sec ago`;
+                return `${Math.floor(nowSec - time)} sec ago`;
             } else if (nowSec - time < hour) {
                 postedTime = Math.trunc(time / minute);
                 nowSec = Math.trunc(nowSec / minute);
@@ -64,28 +54,25 @@ function Post({
         }
     };
 
-    if (avatar === 'profile1') {
-        avatar = profile1;
-    } else {
-        avatar = profile2;
-    }
-
-    if (img === 'postImage1') {
-        img = postImage1;
-    } else {
+    if (!img) {
         img = postImage2;
     }
 
     return (
         <article className="bg-white border border-gray-300" id={id}>
             <div className="flex items-center p-4">
-                <figure className="flex-shrink-0 cursor-pointer">
-                    <img
-                        className="w-14 h-14 p-0.5 border border-gray-500 rounded-full object-cover"
-                        src={avatar}
-                        alt=""
-                    />
-                </figure>
+                {avatar ? (
+                    <figure className="flex-shrink-0 cursor-pointer">
+                        <img
+                            className="w-14 h-14 p-0.5 border border-gray-500 rounded-full object-cover"
+                            src={avatar}
+                            alt=""
+                        />
+                    </figure>
+                ) : (
+                    setAvatar(username, 12)
+                )}
+
                 <h3 className="text-md font-semibold text-gray-600 flex-1 ml-2">
                     {username}
                 </h3>
@@ -96,7 +83,7 @@ function Post({
             </div>
             <div>
                 <figure>
-                    <img src={img} alt={id} />
+                    <img className="w-full" src={img} alt={id} />
                 </figure>
             </div>
             <div className="px-4 pt-4 pb-2">
@@ -127,11 +114,11 @@ function Post({
                 </div>
                 <div className="mt-2">
                     <p>
-                        <span className="font-semibold">{username}</span>
+                        <span className="font-semibold mr-2">{username}</span>
                         {caption}
                     </p>
                     <p className="py-2 text-xs text-gray-500">
-                        {timeCalculate(seconds)}
+                        {timeCalculate(postedTime?.seconds)}
                     </p>
                 </div>
             </div>

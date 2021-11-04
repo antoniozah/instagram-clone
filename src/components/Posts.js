@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Post from './Post';
 import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 function Posts() {
     const [posts, setPosts] = useState([]);
@@ -9,18 +9,19 @@ function Posts() {
 
     useEffect(() => {
         setIsLoading(true);
-        const getPosts = async () => {
-            const data = await getDocs(collection(db, 'posts'));
-            setPosts(
-                data.docs.map((doc) => ({
+        const unsubscribe = onSnapshot(
+            query(collection(db, 'posts'), orderBy('postedTime', 'desc')),
+            (snapshot) => {
+                const data = snapshot.docs.map((doc) => ({
                     ...doc.data(),
                     id: doc.id,
-                })),
-            );
-        };
-        getPosts();
+                }));
+                setPosts(data);
+            }
+        );
         setIsLoading(false);
-    }, []);
+        return unsubscribe;
+    }, [db]);
 
     if (isLoading) {
         <h2>Loading...</h2>;
@@ -35,7 +36,7 @@ function Posts() {
                     likes={post.likes}
                     caption={post.caption}
                     id={post.id}
-                    img={post.img}
+                    img={post.imgUrl}
                     postedTime={post.postedTime}
                 />
             ))}
