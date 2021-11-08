@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import instagramLogo from '../images/instagram-full-logo.png';
 
 function Login({ loginEmail, loginPass, loginUser }) {
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
     return (
         <div className="w-full max-w-md">
             <figure className="flex justify-center">

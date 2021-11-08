@@ -14,8 +14,8 @@ import Modal from './components/Modal';
 import { auth } from './firebase';
 import './App.css';
 
-import { useDispatch } from 'react-redux';
-import { login, logout } from './features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout, selectUser } from './features/userSlice';
 
 function App() {
     const [isLogedIn, setIsLogedIn] = useState(false);
@@ -33,6 +33,7 @@ function App() {
         if (currentUser) {
             setUser(currentUser.email);
             setIsLogedIn(true);
+            dispatch(login(user?.substring(0, user.lastIndexOf('@'))));
         } else {
             setIsLogedIn(false);
             setUser(currentUser);
@@ -47,8 +48,6 @@ function App() {
                 registerEmail,
                 registerPass
             );
-
-            setIsLogedIn(true);
         } catch (error) {
             console.log(error.message);
             alert(error.message);
@@ -62,7 +61,6 @@ function App() {
                 loginEmail,
                 loginPass
             );
-            setIsLogedIn(true);
         } catch (error) {
             console.log(error.message);
             alert(error.message);
@@ -111,11 +109,7 @@ function App() {
     return (
         <div className="App bg-gray-50">
             {/* Header */}
-            <Header
-                logout={logoutHandler}
-                modalStatus={setIsModal}
-                username={user}
-            />
+            <Header logout={logoutHandler} modalStatus={setIsModal} />
             {/* Feed */}
             <Feed username={user} logout={logoutHandler} />
             {/* Modal */}

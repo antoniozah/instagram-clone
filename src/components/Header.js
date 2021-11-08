@@ -13,9 +13,12 @@ import {
     HeartIcon,
 } from '@heroicons/react/outline';
 import { HomeIcon } from '@heroicons/react/solid';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/userSlice';
 
 function Header({ logout, modalStatus, username }) {
     const [profOpen, setProfOpen] = useState(false);
+    const userAuth = useSelector(selectUser);
 
     return (
         <header className="shadow-sm border-b bg-white sticky top-0 z-50">
@@ -58,7 +61,7 @@ function Header({ logout, modalStatus, username }) {
                     <div className="relative">
                         <div onClick={() => setProfOpen(!profOpen)}>
                             {' '}
-                            {setAvatar(username, 10)}
+                            {setAvatar(userAuth, 10)}
                         </div>
                         {profOpen && (
                             <div className="absolute top-full -left-12 flex justify-center items-center mt-1 w-32 py-2 px-3 bg-gray-50 border ">

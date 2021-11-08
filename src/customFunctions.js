@@ -1,5 +1,5 @@
 const setAvatar = (username, size) => {
-    let avatarText = username.substring(0, 1).toUpperCase();
+    let avatarText = username?.substring(0, 1).toUpperCase();
 
     return (
         <div className="flex-shrink-0 cursor-pointer">

@@ -21,7 +21,7 @@ function Posts() {
         );
         setIsLoading(false);
         return unsubscribe;
-    }, [db]);
+    }, []);
 
     if (isLoading) {
         <h2>Loading...</h2>;
